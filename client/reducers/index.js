@@ -1,7 +1,9 @@
 import {combineReducers} from 'redux'
+import {reducer as formReducer} from 'redux-form'
 
-import greetings from './greetings' 
+const reducers = {
+  form: formReducer
+  // form reducer is mounted at form
+}
 
-export default combineReducers({
-  greetings
-})
+export default combineReducers(reducers)
