@@ -3,9 +3,7 @@ var express = require('express')
 var bodyParser = require('body-parser')
 const cors = require('cors')
 
-
 var skuxxes = require('./routes/routes')
-
 
 const corsOptions = {
   origin: true,

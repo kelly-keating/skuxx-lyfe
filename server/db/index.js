@@ -3,6 +3,12 @@ const getSkuxxes = (db) => {
     .select('*')
 }
 
+const saveSkuxxes = (data, db) => {
+  return db('skuxxes')
+    .insert(data)
+}
+
 module.exports = {
-  getSkuxxes
+  getSkuxxes,
+  saveSkuxxes
 }
