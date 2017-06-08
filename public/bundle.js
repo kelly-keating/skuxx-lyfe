@@ -10696,7 +10696,7 @@ function compose() {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ActionTypes; });
 /* harmony export (immutable) */ __webpack_exports__["a"] = createStore;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_es_isPlainObject__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_symbol_observable__ = __webpack_require__(227);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_symbol_observable__ = __webpack_require__(230);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_symbol_observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_symbol_observable__);
 
 
@@ -11036,9 +11036,9 @@ var _react = __webpack_require__(20);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Greetings = __webpack_require__(102);
+var _Game = __webpack_require__(102);
 
-var _Greetings2 = _interopRequireDefault(_Greetings);
+var _Game2 = _interopRequireDefault(_Game);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11046,7 +11046,7 @@ var App = function App() {
   return _react2.default.createElement(
     'div',
     { className: 'app-container' },
-    _react2.default.createElement(_Greetings2.default, null)
+    _react2.default.createElement(_Game2.default, null)
   );
 };
 
@@ -11065,14 +11065,14 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(33);
 
-var _greetings = __webpack_require__(104);
+var _game = __webpack_require__(104);
 
-var _greetings2 = _interopRequireDefault(_greetings);
+var _game2 = _interopRequireDefault(_game);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (0, _redux.combineReducers)({
-  greetings: _greetings2.default
+  game: _game2.default
 });
 
 /***/ }),
@@ -11124,30 +11124,30 @@ exports['default'] = thunk;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.receiveGreetings = undefined;
-exports.getGreetings = getGreetings;
+exports.receiveSkuxxes = undefined;
+exports.getSkuxxes = getSkuxxes;
 
-var _superagent = __webpack_require__(230);
+var _superagent = __webpack_require__(227);
 
 var _superagent2 = _interopRequireDefault(_superagent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var receiveGreetings = exports.receiveGreetings = function receiveGreetings(greetings) {
+var receiveSkuxxes = exports.receiveSkuxxes = function receiveSkuxxes(skuxxes) {
   return {
-    type: 'RECEIVE_GREETINGS',
-    greetings: greetings
+    type: 'RECEIVE_SKUXXES',
+    skuxxes: skuxxes
   };
 };
 
-function getGreetings() {
+function getSkuxxes() {
   return function (dispatch) {
-    _superagent2.default.get('/api/greetings').end(function (err, res) {
+    _superagent2.default.get('/api/v1/skuxx').end(function (err, res) {
       if (err) {
         console.error(err.message);
         return;
       }
-      dispatch(receiveGreetings(res.body));
+      dispatch(receiveSkuxxes(res.body));
     });
   };
 }
@@ -11169,20 +11169,16 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(55);
 
-var _greetings = __webpack_require__(101);
+var _game = __webpack_require__(101);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var renderGreeting = function renderGreeting(greeting, key) {
-  return _react2.default.createElement(
-    'h1',
-    { key: key },
-    greeting.text
-  );
+var renderSkuxx = function renderSkuxx(skuxx, key) {
+  return _react2.default.createElement('img', { src: skuxx.img_url });
 };
 
-var Greetings = function Greetings(_ref) {
-  var greetings = _ref.greetings,
+var Skuxxes = function Skuxxes(_ref) {
+  var skuxxes = _ref.skuxxes,
       dispatch = _ref.dispatch;
   return _react2.default.createElement(
     'div',
@@ -11190,19 +11186,19 @@ var Greetings = function Greetings(_ref) {
     _react2.default.createElement(
       'button',
       { onClick: function onClick() {
-          return dispatch((0, _greetings.getGreetings)());
+          return dispatch((0, _game.getSkuxxes)());
         } },
-      'Show Greetings'
+      'Show Skuxxes'
     ),
-    greetings.map(renderGreeting)
+    skuxxes.map(renderSkuxx)
   );
 };
 
 var mapStateToProps = function mapStateToProps(state) {
-  return { greetings: state.greetings };
+  return { skuxxes: state.skuxxes };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(Greetings);
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(Skuxxes);
 
 /***/ }),
 /* 103 */
@@ -11260,19 +11256,19 @@ Object.defineProperty(exports, "__esModule", {
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-function greetings() {
+function skuxxes() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments[1];
 
   switch (action.type) {
-    case 'RECEIVE_GREETINGS':
-      return [].concat(_toConsumableArray(action.greetings));
+    case 'RECEIVE_SKUXXES':
+      return [].concat(_toConsumableArray(action.skuxxes));
     default:
       return state;
   }
 }
 
-exports.default = greetings;
+exports.default = skuxxes;
 
 /***/ }),
 /* 105 */
@@ -24652,78 +24648,6 @@ function combineReducers(reducers) {
 /* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(228);
-
-
-/***/ }),
-/* 228 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global, module) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _ponyfill = __webpack_require__(229);
-
-var _ponyfill2 = _interopRequireDefault(_ponyfill);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var root; /* global window */
-
-
-if (typeof self !== 'undefined') {
-  root = self;
-} else if (typeof window !== 'undefined') {
-  root = window;
-} else if (typeof global !== 'undefined') {
-  root = global;
-} else if (true) {
-  root = module;
-} else {
-  root = Function('return this')();
-}
-
-var result = (0, _ponyfill2['default'])(root);
-exports['default'] = result;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(96), __webpack_require__(233)(module)))
-
-/***/ }),
-/* 229 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports['default'] = symbolObservablePonyfill;
-function symbolObservablePonyfill(root) {
-	var result;
-	var _Symbol = root.Symbol;
-
-	if (typeof _Symbol === 'function') {
-		if (_Symbol.observable) {
-			result = _Symbol.observable;
-		} else {
-			result = _Symbol('observable');
-			_Symbol.observable = result;
-		}
-	} else {
-		result = '@@observable';
-	}
-
-	return result;
-};
-
-/***/ }),
-/* 230 */
-/***/ (function(module, exports, __webpack_require__) {
-
 /**
  * Root reference for iframes.
  */
@@ -24739,7 +24663,7 @@ if (typeof window !== 'undefined') { // Browser window
 }
 
 var Emitter = __webpack_require__(105);
-var requestBase = __webpack_require__(231);
+var requestBase = __webpack_require__(228);
 var isObject = __webpack_require__(95);
 
 /**
@@ -24752,7 +24676,7 @@ function noop(){};
  * Expose `request`.
  */
 
-var request = module.exports = __webpack_require__(232).bind(null, Request);
+var request = module.exports = __webpack_require__(229).bind(null, Request);
 
 /**
  * Determine XHR.
@@ -25703,7 +25627,7 @@ request.put = function(url, data, fn){
 
 
 /***/ }),
-/* 231 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -26081,7 +26005,7 @@ exports.send = function(data){
 
 
 /***/ }),
-/* 232 */
+/* 229 */
 /***/ (function(module, exports) {
 
 // The node and browser modules expose versions of this with the
@@ -26117,6 +26041,78 @@ function request(RequestConstructor, method, url) {
 
 module.exports = request;
 
+
+/***/ }),
+/* 230 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(231);
+
+
+/***/ }),
+/* 231 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global, module) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _ponyfill = __webpack_require__(232);
+
+var _ponyfill2 = _interopRequireDefault(_ponyfill);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var root; /* global window */
+
+
+if (typeof self !== 'undefined') {
+  root = self;
+} else if (typeof window !== 'undefined') {
+  root = window;
+} else if (typeof global !== 'undefined') {
+  root = global;
+} else if (true) {
+  root = module;
+} else {
+  root = Function('return this')();
+}
+
+var result = (0, _ponyfill2['default'])(root);
+exports['default'] = result;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(96), __webpack_require__(233)(module)))
+
+/***/ }),
+/* 232 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports['default'] = symbolObservablePonyfill;
+function symbolObservablePonyfill(root) {
+	var result;
+	var _Symbol = root.Symbol;
+
+	if (typeof _Symbol === 'function') {
+		if (_Symbol.observable) {
+			result = _Symbol.observable;
+		} else {
+			result = _Symbol('observable');
+			_Symbol.observable = result;
+		}
+	} else {
+		result = '@@observable';
+	}
+
+	return result;
+};
 
 /***/ }),
 /* 233 */
