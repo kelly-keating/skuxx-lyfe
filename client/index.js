@@ -6,7 +6,6 @@ import store from './store'
 import App from './components/App'
 
 
-
 document.addEventListener('DOMContentLoaded', () => {
   render(
     <Provider store={store}>

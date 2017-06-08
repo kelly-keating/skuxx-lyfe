@@ -1,7 +1,14 @@
 import {combineReducers} from 'redux'
+import {reducer as formReducer} from 'redux-form'
 
-import skuxxes from './skuxxes'
+import game from './game'
+import formPage from './formPage'
 
-export default combineReducers({
-  skuxxes
-})
+const reducers = {
+  form: formReducer,
+  // form reducer is mounted at form
+  formPage: formPage,
+  game:game
+}
+
+export default combineReducers(reducers)
