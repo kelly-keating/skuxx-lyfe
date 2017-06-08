@@ -10,10 +10,9 @@ const App = () => (
   <Router>
     <div className='app-container'>
       <Nav />
-      <Route exact path='/' component={()=> <Game /> }
+      <Route exact path='/' component={Game}
         />
-      <Route path = '/form' component={() =>
-          <FormPage />}
+      <Route path = '/form' component={FormPage}
         />
     </div>
   </Router>

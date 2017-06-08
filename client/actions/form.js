@@ -7,9 +7,11 @@ function addPersonRequest(){
   }
 }
 
-function addPersonSuccess(){
+function addPersonSuccess(userInput){
+  console.log("banana",userInput);
   return{
-    type: "ADD_PERSON_SUCCESS"
+    type: "ADD_PERSON_SUCCESS",
+    userInput
   }
 }
 
@@ -30,7 +32,7 @@ export default function addPerson(formInput){
         if (err || !res.ok) {
           dispatch((addPersonFailure(err)))
         } else {
-          alert('yay got' + JSON.stringify(res.body))
+          dispatch((addPersonSuccess(formInput)))
         }
       })
   }

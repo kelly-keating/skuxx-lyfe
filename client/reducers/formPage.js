@@ -1,7 +1,8 @@
 const initialState = {
   adding:false,
   add_success:false,
-  err:null
+  err:null,
+  userInput:null
 }
 
 function formPage (state=initialState, action){
@@ -10,19 +11,22 @@ function formPage (state=initialState, action){
       return {
         adding:true,
         add_success: false,
-        err: null
+        err: null,
+        userInput:null
       }
     case "ADD_PERSON_SUCCESS":
       return {
         adding:false,
         add_success:true,
-        err: null
+        err: null,
+        userInput:action.userInput
       }
     case "ADD_PERSON_FAILURE":
       return {
         adding: false,
         add_success: false,
-        err:action.err
+        err:action.err,
+        userInput:action.userInput
       }
     default:
       return state

@@ -15829,13 +15829,9 @@ var App = function App() {
       'div',
       { className: 'app-container' },
       _react2.default.createElement(_Nav2.default, null),
-      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: function component() {
-          return _react2.default.createElement(_Game2.default, null);
-        }
+      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Game2.default
       }),
-      _react2.default.createElement(_reactRouterDom.Route, { path: '/form', component: function component() {
-          return _react2.default.createElement(_FormPage2.default, null);
-        }
+      _react2.default.createElement(_reactRouterDom.Route, { path: '/form', component: _FormPage2.default
       })
     )
   );
@@ -15944,9 +15940,11 @@ function addPersonRequest() {
   };
 }
 
-function addPersonSuccess() {
+function addPersonSuccess(userInput) {
+  console.log("banana", userInput);
   return {
-    type: "ADD_PERSON_SUCCESS"
+    type: "ADD_PERSON_SUCCESS",
+    userInput: userInput
   };
 }
 
@@ -15964,7 +15962,7 @@ function addPerson(formInput) {
       if (err || !res.ok) {
         dispatch(addPersonFailure(err));
       } else {
-        alert('yay got' + JSON.stringify(res.body));
+        dispatch(addPersonSuccess(formInput));
       }
     });
   };
@@ -16244,6 +16242,10 @@ var _form = __webpack_require__(183);
 
 var _form2 = _interopRequireDefault(_form);
 
+var _AddSuccess = __webpack_require__(500);
+
+var _AddSuccess2 = _interopRequireDefault(_AddSuccess);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -16262,10 +16264,19 @@ var FormPage = function (_React$Component) {
 
     _this.submit = function (values) {
       _this.props.dispatch((0, _form2.default)(values));
-      console.log("bababa", values);
     };
 
-    console.log(props);
+    _this.delete = function () {
+      alert('Tis gone!(not really I am still working on this feature)');
+      _this.props.history.push('/form');
+      console.log("PINEAPPLE DELETE THIS PERSON");
+    };
+
+    _this.personAdded = function () {
+      alert('Cheers mate! Add another Skuxx!');
+      _this.props.history.push('/form');
+    };
+
     return _this;
   }
 
@@ -16275,7 +16286,11 @@ var FormPage = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
-        !this.props.add_success && !this.props.add_finish && _react2.default.createElement(_Form2.default, { onSubmit: this.submit })
+        console.log(this.props),
+        !this.props.add_success && !this.props.add_finish && _react2.default.createElement(_Form2.default, { onSubmit: this.submit }),
+        !this.props.adding && this.props.add_success && _react2.default.createElement(_AddSuccess2.default, {
+          newPerson: this.props.userInput, handleDelete: this.delete,
+          handleSubmit: this.personAdded })
       );
     }
   }]);
@@ -16288,7 +16303,8 @@ function mapState2Props(state) {
   return {
     add_success: state.formPage.add_success,
     adding: state.formPage.adding,
-    err: state.formPage.err
+    err: state.formPage.err,
+    userInput: state.formPage.userInput
   };
 }
 exports.default = (0, _reactRedux.connect)(mapState2Props)(FormPage);
@@ -16353,7 +16369,8 @@ Object.defineProperty(exports, "__esModule", {
 var initialState = {
   adding: false,
   add_success: false,
-  err: null
+  err: null,
+  userInput: null
 };
 
 function formPage() {
@@ -16365,19 +16382,22 @@ function formPage() {
       return {
         adding: true,
         add_success: false,
-        err: null
+        err: null,
+        userInput: null
       };
     case "ADD_PERSON_SUCCESS":
       return {
         adding: false,
         add_success: true,
-        err: null
+        err: null,
+        userInput: action.userInput
       };
     case "ADD_PERSON_FAILURE":
       return {
         adding: false,
         add_success: false,
-        err: action.err
+        err: action.err,
+        userInput: action.userInput
       };
     default:
       return state;
@@ -40489,6 +40509,84 @@ module.exports = function(module) {
   self.fetch.polyfill = true
 })(typeof self !== 'undefined' ? self : this);
 
+
+/***/ }),
+/* 500 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var AddSuccess = function AddSuccess(props) {
+  var newPerson = props.newPerson,
+      handleDelete = props.handleDelete,
+      handleSubmit = props.handleSubmit;
+
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'h2',
+      null,
+      'You successfully added a new person dawg!'
+    ),
+    _react2.default.createElement('img', { src: 'http://www.reactiongifs.com/r/wfa.gif' }),
+    _react2.default.createElement(
+      'h2',
+      null,
+      'The person you added looks like this:'
+    ),
+    _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement(
+        'p',
+        null,
+        'Name:',
+        newPerson.name
+      ),
+      _react2.default.createElement(
+        'p',
+        null,
+        'Image:',
+        _react2.default.createElement('img', { src: '' + newPerson.img_url })
+      ),
+      _react2.default.createElement(
+        'p',
+        null,
+        'Skuxx level:',
+        newPerson.level
+      )
+    ),
+    _react2.default.createElement(
+      'h2',
+      null,
+      'Are you happy with what you added?'
+    ),
+    _react2.default.createElement(
+      'button',
+      { onClick: handleSubmit },
+      'Oh yeah'
+    ),
+    _react2.default.createElement(
+      'button',
+      { onClick: handleDelete },
+      'Nah Delete It'
+    )
+  );
+};
+
+exports.default = AddSuccess;
 
 /***/ })
 /******/ ]);
