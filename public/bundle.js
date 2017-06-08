@@ -15752,6 +15752,10 @@ var _Game = __webpack_require__(185);
 
 var _Game2 = _interopRequireDefault(_Game);
 
+var _Nav = __webpack_require__(499);
+
+var _Nav2 = _interopRequireDefault(_Nav);
+
 var _FormPage = __webpack_require__(186);
 
 var _FormPage2 = _interopRequireDefault(_FormPage);
@@ -15765,6 +15769,7 @@ var App = function App() {
     _react2.default.createElement(
       'div',
       { className: 'app-container' },
+      _react2.default.createElement(_Nav2.default, null),
       _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: function component() {
           return _react2.default.createElement(_Game2.default, null);
         }
@@ -40439,6 +40444,45 @@ module.exports = function(module) {
   self.fetch.polyfill = true
 })(typeof self !== 'undefined' ? self : this);
 
+
+/***/ }),
+/* 499 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(398);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Nav = function Nav() {
+  return _react2.default.createElement(
+    'div',
+    { className: 'nav-container' },
+    _react2.default.createElement(
+      _reactRouterDom.Link,
+      { to: '/' },
+      'Home'
+    ),
+    ' | ',
+    _react2.default.createElement(
+      _reactRouterDom.Link,
+      { to: '/form' },
+      'Add Skuxx'
+    )
+  );
+};
+
+exports.default = Nav;
 
 /***/ })
 /******/ ]);
