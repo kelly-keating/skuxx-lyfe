@@ -1,14 +1,18 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import { Link } from 'react-router-dom'
 
-const doThing = () => {
-  console.log('hi')
-}
+
+const renderButton = () => {
+   return (
+     <div className='homeButt'><Link to={`/game`} >Play GAME</Link></div>
+   )
+ }
 
 const Home = ({greetings, dispatch}) => (
   <div>
     <div id='title'>SKUXX</div>
-    <button onClick={() => doThing()}>Start GAME</button>
+    {renderButton()}
   </div>
 )
 
