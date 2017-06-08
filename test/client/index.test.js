@@ -1,15 +1,16 @@
 
 import React from 'react'
 import test from 'ava'
-import { shallow, mount } from 'enzyme'
+import { shallow, mount, render } from 'enzyme'
 
 import App from '../../client/components/App'
+import Home from '../../client/components/Home'
 import './setup-dom'
 
 App.prototype.componentDidMount = () => {}
 
 
-test('Heading renders on App', t => {
-  const wrapper = shallow(<App />)
-  t.is(wrapper.find('h1').text(), 'Hello')
+test('Heading renders on Home', t => {
+  const wrapper = shallow(<Home />)
+  t.is(wrapper.contains('SKUXX'), true)
 })
