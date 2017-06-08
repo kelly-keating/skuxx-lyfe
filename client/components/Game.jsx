@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 import {getSkuxxes} from '../actions/game'
 
 const renderSkuxx = (skuxx) => (
-  <img src={skuxx.img_url}/>
+  <img key={skuxx.id} src={skuxx.img_url}/>
 )
 
 const Skuxxes = ({skuxxes, dispatch}) => {

@@ -8,10 +8,11 @@ import FormPage from '../containers/FormPage'
 const App = () => (
   <Router>
     <div className='app-container'>
-      <Game />
+      <Route exact path='/' component={()=> <Game /> }
+        />
       <Route path = '/form' component={() =>
           <FormPage />}
-      />
+        />
     </div>
   </Router>
 )

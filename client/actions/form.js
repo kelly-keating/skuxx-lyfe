@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch'
+import request from 'superagent'
 
 function addPersonRequest(){
   return{
@@ -19,18 +20,19 @@ function addPersonFailure(err){
   }
 }
 
-export function addPerson(formInput){
+export default function addPerson(formInput){
   return dispatch =>{
     dispatch(addPersonRequest())
-    return fetch('/api/v1/skuxx',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type':'application/json'
-      },
-      body: JSON.stringify(formInput)
-    })
-      .then(()=> dispatch(addPersonSuccess()))
-      .catch(ex => dispatch(addPersonFailure(ex)))
+    request
+      .post('/api/v1/skuxx')
+      .send(formInput)
+      .end((err,res)=>{
+        if (err || !res.ok) {
+          dispatch((addPersonFailure(err)));
+        } else {
+          alert('yay got' + JSON.stringify(res.body))
+        }
+      })
   }
+
 }

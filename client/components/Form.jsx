@@ -22,7 +22,7 @@ const Form = props => {
             <label>Image</label>
             <div>
               <Field
-                name="ima_url"
+                name="img_url"
                 component="input"
                 type="url"
                 placeholder="https://images-na.ssl-images-amazon.com/images/M/MV5BNzg1MTUyNDYxOF5BMl5BanBnXkFtZTgwNTQ4MTE2MjE@._V1_UX214_CR0,0,214,317_AL_.jpg"

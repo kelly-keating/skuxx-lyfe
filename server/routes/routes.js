@@ -13,7 +13,7 @@ router.get('/skuxx', (req, res) => {
 
 router.post('/skuxx', (req, res) => {
   let db = req.app.get('db')
-  skuxxesDb.saveSkuxxes(req.body)
+  skuxxesDb.saveSkuxxes(req.body, db)
     .then((result)=>{
       res.status(201).send()
     })
