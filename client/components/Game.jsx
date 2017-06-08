@@ -4,19 +4,20 @@ import {connect} from 'react-redux'
 
 import {getSkuxxes} from '../actions/game'
 
-const renderSkuxx = (skuxx, key) => (
+const renderSkuxx = (skuxx) => (
   <img src={skuxx.img_url}/>
 )
 
-const Skuxxes = ({skuxxes, dispatch}) => (
+const Skuxxes = ({skuxxes, dispatch}) => {
+  return (
   <div>
     <button onClick={() => dispatch(getSkuxxes())}>Show Skuxxes</button>
     {skuxxes.map(renderSkuxx)}
   </div>
-)
+)}
 
 const mapStateToProps = (state) => {
-return {skuxxes: state.skuxxes}
+return {skuxxes: state.game}
 
 }
 

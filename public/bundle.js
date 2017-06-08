@@ -11173,13 +11173,14 @@ var _game = __webpack_require__(101);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var renderSkuxx = function renderSkuxx(skuxx, key) {
+var renderSkuxx = function renderSkuxx(skuxx) {
   return _react2.default.createElement('img', { src: skuxx.img_url });
 };
 
 var Skuxxes = function Skuxxes(_ref) {
   var skuxxes = _ref.skuxxes,
       dispatch = _ref.dispatch;
+
   return _react2.default.createElement(
     'div',
     null,
@@ -11195,7 +11196,7 @@ var Skuxxes = function Skuxxes(_ref) {
 };
 
 var mapStateToProps = function mapStateToProps(state) {
-  return { skuxxes: state.skuxxes };
+  return { skuxxes: state.game };
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(Skuxxes);

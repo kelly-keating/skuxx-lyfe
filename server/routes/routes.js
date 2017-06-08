@@ -3,7 +3,7 @@ var router = express.Router()
 
 var skuxxesDb = require('../db')
 
-router.get('/api/v1/skuxx', (req, res) => {
+router.get('/skuxx', (req, res) => {
   let db = req.app.get('db')
   skuxxesDb.getSkuxxes(db)
     .then(skuxxes => {

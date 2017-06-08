@@ -20,6 +20,6 @@ server.use(cors(corsOptions))
 server.use(bodyParser.json())
 server.use(express.static(path.join(__dirname, '../public')))
 
-server.use('/api/v1/skuxx', skuxxes)
+server.use('/api/v1', skuxxes)
 
 module.exports = server
