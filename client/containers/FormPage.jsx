@@ -10,7 +10,7 @@ class FormPage extends React.Component {
   }
 
   submit = (values) => {
-    this.props.dispatch(addPerson())
+    this.props.dispatch(addPerson(values))
     console.log("bababa",values);
   }
 

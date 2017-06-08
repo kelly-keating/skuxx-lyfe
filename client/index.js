@@ -12,7 +12,7 @@ let store = createStore(reducers, compose(
   window.devToolsExtension ? window.devToolsExtension() : f => f
 ))
 
-console.log(store.getState());
+store.subscribe(()=> console.log(store.getState()));
 
 document.addEventListener('DOMContentLoaded', () => {
   render(
