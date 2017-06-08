@@ -28,7 +28,7 @@ export default function addPerson(formInput){
       .send(formInput)
       .end((err,res)=>{
         if (err || !res.ok) {
-          dispatch((addPersonFailure(err)));
+          dispatch((addPersonFailure(err)))
         } else {
           alert('yay got' + JSON.stringify(res.body))
         }
