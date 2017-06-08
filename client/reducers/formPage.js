@@ -1,6 +1,6 @@
 const initialState = {
   adding:false,
-  add_finish:false,
+  add_success:false,
   err:null
 }
 
@@ -8,18 +8,20 @@ function formPage (state=initialState, action){
   switch (action.type) {
     case "ADD_PERSON_REQUEST":
       return {
-        ...state,
-        adding:true
+        adding:true,
+        add_success: false,
+        err: null
       }
     case "ADD_PERSON_SUCCESS":
       return {
-        ...state,
         adding:false,
-        add_finish:true
+        add_success:true,
+        err: null
       }
     case "ADD_PERSON_FAILURE":
       return {
-        ...state,
+        adding: false,
+        add_success: false,
         err:action.err
       }
     default:

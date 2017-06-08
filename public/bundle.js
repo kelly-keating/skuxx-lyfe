@@ -16172,6 +16172,7 @@ var FormPage = function (_React$Component) {
       console.log("bababa", values);
     };
 
+    console.log(props);
     return _this;
   }
 
@@ -16181,7 +16182,7 @@ var FormPage = function (_React$Component) {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_Form2.default, { onSubmit: this.submit })
+        !this.props.add_success && !this.props.add_finish && _react2.default.createElement(_Form2.default, { onSubmit: this.submit })
       );
     }
   }]);
@@ -16189,7 +16190,15 @@ var FormPage = function (_React$Component) {
   return FormPage;
 }(_react2.default.Component);
 
-exports.default = (0, _reactRedux.connect)()(FormPage);
+function mapState2Props(state) {
+  console.log(state);
+  return {
+    add_success: state.formPage.add_success,
+    adding: state.formPage.adding,
+    err: state.formPage.err
+  };
+}
+exports.default = (0, _reactRedux.connect)(mapState2Props)(FormPage);
 
 /***/ }),
 /* 187 */
@@ -16248,12 +16257,9 @@ document.addEventListener('DOMContentLoaded', function () {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var initialState = {
   adding: false,
-  add_finish: false,
+  add_success: false,
   err: null
 };
 
@@ -16263,18 +16269,23 @@ function formPage() {
 
   switch (action.type) {
     case "ADD_PERSON_REQUEST":
-      return _extends({}, state, {
-        adding: true
-      });
+      return {
+        adding: true,
+        add_success: false,
+        err: null
+      };
     case "ADD_PERSON_SUCCESS":
-      return _extends({}, state, {
+      return {
         adding: false,
-        add_finish: true
-      });
+        add_success: true,
+        err: null
+      };
     case "ADD_PERSON_FAILURE":
-      return _extends({}, state, {
+      return {
+        adding: false,
+        add_success: false,
         err: action.err
-      });
+      };
     default:
       return state;
   }
