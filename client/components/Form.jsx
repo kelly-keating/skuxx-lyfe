@@ -36,7 +36,6 @@ const Form = props => {
                 name="level"
                 component="select"
                 >
-                  <option disabled selected>Select Skuxx Level</option>
                   {Array(10).fill(0).map((el, i) => {
                     return <option key={i} value={i + 1}>{i + 1}</option>
                     })
