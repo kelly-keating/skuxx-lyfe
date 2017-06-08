@@ -6,7 +6,7 @@ import Home from './Home'
 
 const App = () => (
   <div className='app-container'>
-    <Router>
+    <Router >
       <span>
         <Home />
       </span>
