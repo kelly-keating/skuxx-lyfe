@@ -10,7 +10,9 @@ import App from './components/App'
 let store = createStore(reducers, compose(
   applyMiddleware(thunkMiddleware),
   window.devToolsExtension ? window.devToolsExtension() : f => f
-)) 
+))
+
+console.log(store.getState());
 
 document.addEventListener('DOMContentLoaded', () => {
   render(

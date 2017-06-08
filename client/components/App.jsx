@@ -1,11 +1,16 @@
 import React from 'react'
+import {HashRouter as Router, Route} from 'react-router-dom'
 
-import Form from './Form'
+import FormPage from '../containers/FormPage'
 
 const App = () => (
-  <div className='app-container'>
-    <Form />
-  </div>
+  <Router>
+    <div className='app-container'>
+      <Route path = '/form' component={() =>
+          <FormPage />}
+      />
+    </div>
+  </Router>
 )
 
 export default App
