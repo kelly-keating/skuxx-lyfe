@@ -9,7 +9,7 @@ const renderButton = () => {
    )
  }
 
-const Home = ({greetings, dispatch}) => (
+const Home = () => (
   <div>
     <div id='title'>SKUXX</div>
     {renderButton()}
