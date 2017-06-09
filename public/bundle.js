@@ -16050,12 +16050,26 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _form = __webpack_require__(183);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var AddSuccess = function AddSuccess(props) {
+
+  console.log("PINEAPPLE", props);
   var newPerson = props.newPerson,
-      handleDelete = props.handleDelete,
-      handleSubmit = props.handleSubmit;
+      dispatch = props.dispatch;
+
+
+  var handleAddFinish = function handleAddFinish() {
+    alert('Cheers mate! Add another Skuxx!');
+    dispatch((0, _form.addFinish)());
+  };
+
+  var handleDelete = function handleDelete() {
+    alert('Tis gone!(not really I am still working on this feature)');
+    dispatch((0, _form.deletePerson)());
+  };
 
   return _react2.default.createElement(
     'div',
@@ -16098,16 +16112,14 @@ var AddSuccess = function AddSuccess(props) {
       null,
       'Are you happy with what you added?'
     ),
-    '// ',
     _react2.default.createElement(
       'button',
-      { onClick: handleSubmit },
+      { onClick: handleAddFinish },
       'Oh yeah'
     ),
-    '// ',
     _react2.default.createElement(
       'button',
-      { onClick: handleDelete(newPerson.name) },
+      { onClick: handleDelete },
       'Nah Delete It'
     )
   );
@@ -16375,22 +16387,6 @@ var FormPage = function (_React$Component) {
       _this.props.dispatch((0, _form.addPerson)(values));
     };
 
-    _this.delete = function (name) {
-      alert('Tis gone!(not really I am still working on this feature)');
-      _this.props.dispatch((0, _form.deletePerson)(name)
-      // this.props.dispatch(deletePerson(name))
-      );
-    };
-
-    _this.personAdded = function () {
-      alert('Cheers mate! Add another Skuxx!');
-      _this.props.dispatch((0, _form.addFinish)()
-      //to redirect to form page
-      );
-    };
-
-    _this.detele = _this.delete.bind(_this);
-    _this.personAdded = _this.personAdded.bind(_this);
     return _this;
   }
 
@@ -16406,8 +16402,8 @@ var FormPage = function (_React$Component) {
           console.log(this.props),
           !this.props.add_success && !this.props.add_finish && _react2.default.createElement(_Form2.default, { onSubmit: this.submit }),
           this.props.add_success && !this.props.add_finish && _react2.default.createElement(_AddSuccess2.default, {
-            newPerson: this.props.userInput, handleDelete: this.delete,
-            handleSubmit: this.personAdded }),
+            dispatch: this.props.dispatch,
+            newPerson: this.props.userInput }),
           this.props.add_success && this.props.add_finish && _react2.default.createElement(_Form2.default, { onSubmit: this.submit })
         )
       );
