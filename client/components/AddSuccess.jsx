@@ -13,8 +13,8 @@ const AddSuccess = props => {
         <p>Skuxx level:{newPerson.level}</p>
       </div>
       <h2>Are you happy with what you added?</h2>
-      <button onClick={handleSubmit}>Oh yeah</button>
-      <button onClick={handleDelete}>Nah Delete It</button>
+      // <button onClick={handleSubmit}>Oh yeah</button>
+      // <button onClick={handleDelete(newPerson.name)}>Nah Delete It</button>
     </div>
   )
 }

@@ -12,7 +12,8 @@ let store = createStore(reducers, compose(
   window.devToolsExtension ? window.devToolsExtension() : f => f
 ))
 
-store.subscribe(()=> console.log(store.getState()));
+// store.subscribe(()=> console.log(store.getState()));
+// If you wanna see the entire state of the app everytime it changes
 
 document.addEventListener('DOMContentLoaded', () => {
   render(

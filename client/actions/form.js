@@ -1,4 +1,3 @@
-import fetch from 'isomorphic-fetch'
 import request from 'superagent'
 
 function addPersonRequest(){
@@ -8,7 +7,6 @@ function addPersonRequest(){
 }
 
 function addPersonSuccess(userInput){
-  console.log("banana",userInput);
   return{
     type: "ADD_PERSON_SUCCESS",
     userInput
@@ -22,7 +20,7 @@ function addPersonFailure(err){
   }
 }
 
-export default function addPerson(formInput){
+function addPerson(formInput){
   return dispatch =>{
     dispatch(addPersonRequest())
     request
@@ -36,5 +34,47 @@ export default function addPerson(formInput){
         }
       })
   }
+}
 
+function addFinish(){
+  return{
+    type: "ADD_PERSON_FINISH"
+  }
+}
+
+function deletePersonFailure(err){
+  return{
+    type: "DELETE_PERSON_FAILURE"
+  }
+}
+
+function deletePersonSuccess(name){
+  return{
+    type: "DELETE_PERSON_SUCCESS",
+    personDeleted:name
+  }
+}
+
+
+function deletePerson(name){
+  return dispatch => {
+    dispatch(addFinish())
+    //redirect to form page
+    request
+      .post('/api/v1/skuxx/delete')
+      .send(name)
+      .end((err,res)=>{
+        if (err || !res.ok) {
+          dispatch((deletePersonFailure(err)))
+        } else {
+          dispatch((deletePersonSucsess(name)))
+        }
+      })
+  }
+}
+
+module.exports = {
+  addPerson,
+  addFinish,
+  deletePerson
 }
