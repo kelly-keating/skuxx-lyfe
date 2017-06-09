@@ -41,3 +41,20 @@ a:visited {
   margin:10px;
   font-size: 1em;
 }
+.game{
+  margin-top: 20vh;
+}
+.photos{
+  display: inline-block;
+  height: 50vh;
+  vertical-align: middle;
+}
+#counter{
+  margin-top: 20px;
+  font-size: 10em;
+}
+
+.photos img{
+  vertical-align: middle;
+  max-height: 50vh;
+}

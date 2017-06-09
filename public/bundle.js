@@ -16321,9 +16321,17 @@ var Skuxxes = function (_React$Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
-        this.state.skuxxes1.length > 0 ? this.renderSkuxxes(this.state.pairIndex) : "",
-        this.state.counter
+        { className: 'game' },
+        _react2.default.createElement(
+          'div',
+          { className: 'photos' },
+          this.state.skuxxes1.length > 0 ? this.renderSkuxxes(this.state.pairIndex) : ""
+        ),
+        _react2.default.createElement(
+          'div',
+          { id: 'counter' },
+          this.state.counter
+        )
       );
     }
   }]);

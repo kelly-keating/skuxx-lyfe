@@ -45,9 +45,13 @@ tickSkuxx () {
 
 render() {
   return (
-    <div>
-      {this.state.skuxxes1.length > 0 ? this.renderSkuxxes(this.state.pairIndex) : ""}
-      { this.state.counter }
+    <div className="game">
+      <div className='photos'>
+        {this.state.skuxxes1.length > 0 ? this.renderSkuxxes(this.state.pairIndex) : ""}
+      </div>
+      <div id='counter'>
+        { this.state.counter }
+      </div>
     </div>
 
     )
