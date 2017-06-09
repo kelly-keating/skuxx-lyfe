@@ -2,7 +2,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import {getSkuxxes} from '../actions/game'
+import {getSkuxxes, incrementCounter} from '../actions/game'
 
 class Skuxxes extends React.Component {
   constructor(props) {
@@ -14,29 +14,29 @@ componentDidMount() {
   this.props.dispatch(getSkuxxes())
 }
 
-selectSkuxx() { //deal with counter.
-  
+selectSkuxx(e, imgNo, idx) { //deal with counter.
+this.props.dispatch(incrementCounter(imgNo, [this.state.skuxxes1[idx].level, this.state.skuxxes2[idx].level]))
 this.tickSkuxx()
 }
 
-renderSkuxx (skuxx) {
+renderSkuxx (skuxx, imgNo) {
   return <span>
-    <img src={skuxx.img_url} width = '400' onClick={() => this.selectSkuxx()}/>
+    <img src={skuxx.img_url} name={imgNo} width='400' onClick={(e) => this.selectSkuxx(e, imgNo, this.state.pairIndex)}/>
   </span>
 }
 
 renderSkuxxes (idx) {
   return (
     <div>
-      {this.renderSkuxx(this.state.skuxxes1[idx])}
-      {this.renderSkuxx(this.state.skuxxes2[idx])}
+      {this.renderSkuxx(this.state.skuxxes1[idx], 0)}
+      {this.renderSkuxx(this.state.skuxxes2[idx], 1)}
     </div>
   )
 }
 
 componentWillReceiveProps (props) {
-    let {skuxxes1, skuxxes2} = props
-    this.setState({skuxxes1, skuxxes2})
+    let {skuxxes1, skuxxes2, counter} = props
+    this.setState({skuxxes1, skuxxes2, counter})
 }
 
 tickSkuxx () {
@@ -47,6 +47,7 @@ render() {
   return (
     <div>
       {this.state.skuxxes1.length > 0 ? this.renderSkuxxes(this.state.pairIndex) : ""}
+      { this.state.counter }
     </div>
 
     )
@@ -69,7 +70,7 @@ const mapStateToProps = (state) => {
   var shuffled = sattoloCycle(state.game)
   var shuffled2 = sattoloCycle(shuffled)
 
-  return {skuxxes1: shuffled, skuxxes2: shuffled2}
+  return {skuxxes1: shuffled, skuxxes2: shuffled2, counter: state.counter}
 
 }
 

@@ -20,3 +20,13 @@ export function getSkuxxes () {
       })
   }
 }
+
+export const incrementCounter = (imgNo, imageLevels) => {
+  console.log("incrementing")
+  let otherIdx = imgNo == 0 ? 1 : 0
+  console.log({imgNo, otherIdx, imageLevels})
+  return {
+    type: 'INCREMENT_COUNTER',
+    amount: imageLevels[imgNo] >= imageLevels[otherIdx] ? 1 : -1
+  }
+}
