@@ -15834,7 +15834,7 @@ var App = function App() {
       { className: 'app-container' },
       _react2.default.createElement(_Nav2.default, null),
       _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Home2.default }),
-      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Game2.default }),
+      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/game', component: _Game2.default }),
       _react2.default.createElement(_reactRouterDom.Route, { path: '/form', component: _FormPage2.default })
     )
   );
@@ -15888,15 +15888,6 @@ module.exports = __webpack_require__(325);
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = addPerson;
-
-var _isomorphicFetch = __webpack_require__(212);
-
-var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
-
 var _superagent = __webpack_require__(176);
 
 var _superagent2 = _interopRequireDefault(_superagent);
@@ -15909,9 +15900,10 @@ function addPersonRequest() {
   };
 }
 
-function addPersonSuccess() {
+function addPersonSuccess(userInput) {
   return {
-    type: "ADD_PERSON_SUCCESS"
+    type: "ADD_PERSON_SUCCESS",
+    userInput: userInput
   };
 }
 
@@ -15929,11 +15921,50 @@ function addPerson(formInput) {
       if (err || !res.ok) {
         dispatch(addPersonFailure(err));
       } else {
-        alert('yay got' + JSON.stringify(res.body));
+        dispatch(addPersonSuccess(formInput));
       }
     });
   };
 }
+
+function addFinish() {
+  return {
+    type: "ADD_PERSON_FINISH"
+  };
+}
+
+function deletePersonFailure(err) {
+  return {
+    type: "DELETE_PERSON_FAILURE"
+  };
+}
+
+function deletePersonSuccess(name) {
+  return {
+    type: "DELETE_PERSON_SUCCESS",
+    personDeleted: name
+  };
+}
+
+function deletePerson(name) {
+  return function (dispatch) {
+    dispatch(addFinish()
+    //redirect to form page
+    );_superagent2.default.post('/api/v1/skuxx/delete').send(name).end(function (err, res) {
+      if (err || !res.ok) {
+        dispatch(deletePersonFailure(err));
+      } else {
+        dispatch(deletePersonSucsess(name));
+      }
+    });
+  };
+}
+
+module.exports = {
+  addPerson: addPerson,
+  addFinish: addFinish,
+  deletePerson: deletePerson
+};
 
 /***/ }),
 /* 183 */
@@ -15945,7 +15976,7 @@ function addPerson(formInput) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.receiveSkuxxes = undefined;
+exports.incrementCounter = exports.receiveSkuxxes = undefined;
 exports.getSkuxxes = getSkuxxes;
 
 var _superagent = __webpack_require__(176);
@@ -15972,6 +16003,16 @@ function getSkuxxes() {
     });
   };
 }
+
+var incrementCounter = exports.incrementCounter = function incrementCounter(imgNo, imageLevels) {
+  console.log("incrementing");
+  var otherIdx = imgNo == 0 ? 1 : 0;
+  console.log({ imgNo: imgNo, otherIdx: otherIdx, imageLevels: imageLevels });
+  return {
+    type: 'INCREMENT_COUNTER',
+    amount: imageLevels[imgNo] >= imageLevels[otherIdx] ? 1 : -1
+  };
+};
 
 /***/ }),
 /* 184 */
@@ -16000,10 +16041,10 @@ var Form = function Form(props) {
 
   return _react2.default.createElement(
     'div',
-    null,
+    { 'class': 'form-page' },
     _react2.default.createElement(
-      'h1',
-      null,
+      'p',
+      { id: 'form-title' },
       'Add A Skuxx'
     ),
     _react2.default.createElement(
@@ -16064,11 +16105,6 @@ var Form = function Form(props) {
               name: 'level',
               component: 'select'
             },
-            _react2.default.createElement(
-              'option',
-              { disabled: true, selected: true },
-              'Select Skuxx Level'
-            ),
             Array(10).fill(0).map(function (el, i) {
               return _react2.default.createElement(
                 'option',
@@ -16110,6 +16146,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
@@ -16120,30 +16158,104 @@ var _game = __webpack_require__(183);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var renderSkuxx = function renderSkuxx(skuxx) {
-  return _react2.default.createElement('img', { key: skuxx.id, src: skuxx.img_url });
-};
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Skuxxes = function Skuxxes(_ref) {
-  var skuxxes = _ref.skuxxes,
-      dispatch = _ref.dispatch;
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-  return _react2.default.createElement(
-    'div',
-    null,
-    _react2.default.createElement(
-      'button',
-      { onClick: function onClick() {
-          return dispatch((0, _game.getSkuxxes)());
-        } },
-      'Show Skuxxes'
-    ),
-    skuxxes.map(renderSkuxx)
-  );
-};
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Skuxxes = function (_React$Component) {
+  _inherits(Skuxxes, _React$Component);
+
+  function Skuxxes(props) {
+    _classCallCheck(this, Skuxxes);
+
+    var _this = _possibleConstructorReturn(this, (Skuxxes.__proto__ || Object.getPrototypeOf(Skuxxes)).call(this, props));
+
+    _this.state = { pairIndex: 0, skuxxes1: props.skuxxes1, skuxxes2: props.skuxxes2 };
+    return _this;
+  }
+
+  _createClass(Skuxxes, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.props.dispatch((0, _game.getSkuxxes)());
+    }
+  }, {
+    key: 'selectSkuxx',
+    value: function selectSkuxx(e, imgNo, idx) {
+      //deal with counter.
+      this.props.dispatch((0, _game.incrementCounter)(imgNo, [this.state.skuxxes1[idx].level, this.state.skuxxes2[idx].level]));
+      this.tickSkuxx();
+    }
+  }, {
+    key: 'renderSkuxx',
+    value: function renderSkuxx(skuxx, imgNo) {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        'span',
+        null,
+        _react2.default.createElement('img', { src: skuxx.img_url, name: imgNo, width: '400', onClick: function onClick(e) {
+            return _this2.selectSkuxx(e, imgNo, _this2.state.pairIndex);
+          } })
+      );
+    }
+  }, {
+    key: 'renderSkuxxes',
+    value: function renderSkuxxes(idx) {
+      return _react2.default.createElement(
+        'div',
+        null,
+        this.renderSkuxx(this.state.skuxxes1[idx], 0),
+        this.renderSkuxx(this.state.skuxxes2[idx], 1)
+      );
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(props) {
+      var skuxxes1 = props.skuxxes1,
+          skuxxes2 = props.skuxxes2,
+          counter = props.counter;
+
+      this.setState({ skuxxes1: skuxxes1, skuxxes2: skuxxes2, counter: counter });
+    }
+  }, {
+    key: 'tickSkuxx',
+    value: function tickSkuxx() {
+      this.setState({ pairIndex: this.state.pairIndex + 1 });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        this.state.skuxxes1.length > 0 ? this.renderSkuxxes(this.state.pairIndex) : "",
+        this.state.counter
+      );
+    }
+  }]);
+
+  return Skuxxes;
+}(_react2.default.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
-  return { skuxxes: state.game };
+  function sattoloCycle(arr) {
+    var items = arr.slice();
+    for (var i = items.length - 1; i >= 1; i--) {
+      var j = Math.floor(Math.random() * i);
+      var tmp = items[i];
+      items[i] = items[j];
+      items[j] = tmp;
+    }
+    return items;
+  }
+
+  var shuffled = sattoloCycle(state.game);
+  var shuffled2 = sattoloCycle(shuffled);
+
+  return { skuxxes1: shuffled, skuxxes2: shuffled2, counter: state.counter };
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(Skuxxes);
@@ -16171,11 +16283,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var renderButton = function renderButton() {
   return _react2.default.createElement(
-    'div',
-    { className: 'homeButt' },
+    _reactRouterDom.Link,
+    { to: '/game' },
     _react2.default.createElement(
-      _reactRouterDom.Link,
-      { to: '/game' },
+      'div',
+      { className: 'homeButt' },
       'Play GAME'
     )
   );
@@ -16222,9 +16334,9 @@ var Nav = function Nav() {
     _react2.default.createElement(
       _reactRouterDom.Link,
       { to: '/' },
-      'Home'
+      _react2.default.createElement('img', { src: 'http://i.imgur.com/jMMEjEY.gif' })
     ),
-    ' | ',
+    _react2.default.createElement('br', null),
     _react2.default.createElement(
       _reactRouterDom.Link,
       { to: '/form' },
@@ -16254,13 +16366,17 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(18);
 
+var _reactRouterDom = __webpack_require__(96);
+
 var _Form = __webpack_require__(184);
 
 var _Form2 = _interopRequireDefault(_Form);
 
 var _form = __webpack_require__(182);
 
-var _form2 = _interopRequireDefault(_form);
+var _AddSuccess = __webpack_require__(502);
+
+var _AddSuccess2 = _interopRequireDefault(_AddSuccess);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16279,8 +16395,7 @@ var FormPage = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (FormPage.__proto__ || Object.getPrototypeOf(FormPage)).call(this, props));
 
     _this.submit = function (values) {
-      _this.props.dispatch((0, _form2.default)(values));
-      console.log("bababa", values);
+      _this.props.dispatch((0, _form.addPerson)(values));
     };
 
     return _this;
@@ -16290,9 +16405,18 @@ var FormPage = function (_React$Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'div',
+        _reactRouterDom.HashRouter,
         null,
-        _react2.default.createElement(_Form2.default, { onSubmit: this.submit })
+        _react2.default.createElement(
+          'div',
+          null,
+          console.log(this.props),
+          !this.props.add_success && !this.props.add_finish && _react2.default.createElement(_Form2.default, { onSubmit: this.submit }),
+          this.props.add_success && !this.props.add_finish && _react2.default.createElement(_AddSuccess2.default, {
+            dispatch: this.props.dispatch,
+            newPerson: this.props.userInput }),
+          this.props.add_success && this.props.add_finish && _react2.default.createElement(_Form2.default, { onSubmit: this.submit })
+        )
       );
     }
   }]);
@@ -16300,7 +16424,16 @@ var FormPage = function (_React$Component) {
   return FormPage;
 }(_react2.default.Component);
 
-exports.default = (0, _reactRedux.connect)()(FormPage);
+function mapState2Props(state) {
+  return {
+    add_success: state.formPage.add_success,
+    adding: state.formPage.adding,
+    err: state.formPage.err,
+    userInput: state.formPage.userInput,
+    add_finish: state.formPage.add_finish
+  };
+}
+exports.default = (0, _reactRedux.connect)(mapState2Props)(FormPage);
 
 /***/ }),
 /* 189 */
@@ -16350,8 +16483,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var initialState = {
   adding: false,
-  add_finish: false,
-  err: null
+  add_success: false,
+  err: null,
+  userInput: null,
+  add_finish: false
 };
 
 function formPage() {
@@ -16366,11 +16501,20 @@ function formPage() {
     case "ADD_PERSON_SUCCESS":
       return _extends({}, state, {
         adding: false,
-        add_finish: true
+        add_success: true,
+        err: null,
+        userInput: action.userInput
       });
     case "ADD_PERSON_FAILURE":
       return _extends({}, state, {
-        err: action.err
+        adding: false,
+        add_success: false,
+        err: action.err,
+        userInput: action.userInput
+      });
+    case "ADD_PERSON_FINISH":
+      return _extends({}, state, {
+        add_finish: true
       });
     default:
       return state;
@@ -16424,6 +16568,10 @@ var _game = __webpack_require__(191);
 
 var _game2 = _interopRequireDefault(_game);
 
+var _counter = __webpack_require__(503);
+
+var _counter2 = _interopRequireDefault(_counter);
+
 var _formPage = __webpack_require__(190);
 
 var _formPage2 = _interopRequireDefault(_formPage);
@@ -16434,7 +16582,8 @@ var reducers = {
   form: _reduxForm.reducer,
   // form reducer is mounted at form
   formPage: _formPage2.default,
-  game: _game2.default
+  game: _game2.default,
+  counter: _counter2.default
 };
 
 exports.default = (0, _redux.combineReducers)(reducers);
@@ -18252,18 +18401,7 @@ var createMemoryHistory = function createMemoryHistory() {
 exports.default = createMemoryHistory;
 
 /***/ }),
-/* 212 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// the whatwg-fetch polyfill installs the fetch() function
-// on the global object (window or self)
-//
-// Return that as the export for use in Webpack, Browserify etc.
-__webpack_require__(501);
-module.exports = self.fetch.bind(self);
-
-
-/***/ }),
+/* 212 */,
 /* 213 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -40080,471 +40218,121 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 501 */
-/***/ (function(module, exports) {
+/* 501 */,
+/* 502 */
+/***/ (function(module, exports, __webpack_require__) {
 
-(function(self) {
-  'use strict';
+"use strict";
 
-  if (self.fetch) {
-    return
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(3);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _form = __webpack_require__(182);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var AddSuccess = function AddSuccess(props) {
+
+  console.log("PINEAPPLE", props);
+  var newPerson = props.newPerson,
+      dispatch = props.dispatch;
+
+
+  var handleAddFinish = function handleAddFinish() {
+    alert('Cheers mate! Add another Skuxx!');
+    dispatch((0, _form.addFinish)());
+  };
+
+  var handleDelete = function handleDelete() {
+    alert('Tis gone!(not really I am still working on this feature)');
+    dispatch((0, _form.deletePerson)());
+  };
+
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'h2',
+      null,
+      'You successfully added a new person dawg!'
+    ),
+    _react2.default.createElement('img', { src: 'http://www.reactiongifs.com/r/wfa.gif' }),
+    _react2.default.createElement(
+      'h2',
+      null,
+      'The person you added looks like this:'
+    ),
+    _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement(
+        'p',
+        null,
+        'Name:',
+        newPerson.name
+      ),
+      _react2.default.createElement(
+        'p',
+        null,
+        'Image:',
+        _react2.default.createElement('img', { src: '' + newPerson.img_url })
+      ),
+      _react2.default.createElement(
+        'p',
+        null,
+        'Skuxx level:',
+        newPerson.level
+      )
+    ),
+    _react2.default.createElement(
+      'h2',
+      null,
+      'Are you happy with what you added?'
+    ),
+    _react2.default.createElement(
+      'button',
+      { onClick: handleAddFinish },
+      'Oh yeah'
+    ),
+    _react2.default.createElement(
+      'button',
+      { onClick: handleDelete },
+      'Nah Delete It'
+    )
+  );
+};
+
+exports.default = AddSuccess;
+
+/***/ }),
+/* 503 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+function counter() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'INCREMENT_COUNTER':
+      return state + action.amount >= 0 ? state + action.amount : 0;
+    default:
+      return state;
   }
+}
 
-  var support = {
-    searchParams: 'URLSearchParams' in self,
-    iterable: 'Symbol' in self && 'iterator' in Symbol,
-    blob: 'FileReader' in self && 'Blob' in self && (function() {
-      try {
-        new Blob()
-        return true
-      } catch(e) {
-        return false
-      }
-    })(),
-    formData: 'FormData' in self,
-    arrayBuffer: 'ArrayBuffer' in self
-  }
-
-  if (support.arrayBuffer) {
-    var viewClasses = [
-      '[object Int8Array]',
-      '[object Uint8Array]',
-      '[object Uint8ClampedArray]',
-      '[object Int16Array]',
-      '[object Uint16Array]',
-      '[object Int32Array]',
-      '[object Uint32Array]',
-      '[object Float32Array]',
-      '[object Float64Array]'
-    ]
-
-    var isDataView = function(obj) {
-      return obj && DataView.prototype.isPrototypeOf(obj)
-    }
-
-    var isArrayBufferView = ArrayBuffer.isView || function(obj) {
-      return obj && viewClasses.indexOf(Object.prototype.toString.call(obj)) > -1
-    }
-  }
-
-  function normalizeName(name) {
-    if (typeof name !== 'string') {
-      name = String(name)
-    }
-    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
-      throw new TypeError('Invalid character in header field name')
-    }
-    return name.toLowerCase()
-  }
-
-  function normalizeValue(value) {
-    if (typeof value !== 'string') {
-      value = String(value)
-    }
-    return value
-  }
-
-  // Build a destructive iterator for the value list
-  function iteratorFor(items) {
-    var iterator = {
-      next: function() {
-        var value = items.shift()
-        return {done: value === undefined, value: value}
-      }
-    }
-
-    if (support.iterable) {
-      iterator[Symbol.iterator] = function() {
-        return iterator
-      }
-    }
-
-    return iterator
-  }
-
-  function Headers(headers) {
-    this.map = {}
-
-    if (headers instanceof Headers) {
-      headers.forEach(function(value, name) {
-        this.append(name, value)
-      }, this)
-    } else if (Array.isArray(headers)) {
-      headers.forEach(function(header) {
-        this.append(header[0], header[1])
-      }, this)
-    } else if (headers) {
-      Object.getOwnPropertyNames(headers).forEach(function(name) {
-        this.append(name, headers[name])
-      }, this)
-    }
-  }
-
-  Headers.prototype.append = function(name, value) {
-    name = normalizeName(name)
-    value = normalizeValue(value)
-    var oldValue = this.map[name]
-    this.map[name] = oldValue ? oldValue+','+value : value
-  }
-
-  Headers.prototype['delete'] = function(name) {
-    delete this.map[normalizeName(name)]
-  }
-
-  Headers.prototype.get = function(name) {
-    name = normalizeName(name)
-    return this.has(name) ? this.map[name] : null
-  }
-
-  Headers.prototype.has = function(name) {
-    return this.map.hasOwnProperty(normalizeName(name))
-  }
-
-  Headers.prototype.set = function(name, value) {
-    this.map[normalizeName(name)] = normalizeValue(value)
-  }
-
-  Headers.prototype.forEach = function(callback, thisArg) {
-    for (var name in this.map) {
-      if (this.map.hasOwnProperty(name)) {
-        callback.call(thisArg, this.map[name], name, this)
-      }
-    }
-  }
-
-  Headers.prototype.keys = function() {
-    var items = []
-    this.forEach(function(value, name) { items.push(name) })
-    return iteratorFor(items)
-  }
-
-  Headers.prototype.values = function() {
-    var items = []
-    this.forEach(function(value) { items.push(value) })
-    return iteratorFor(items)
-  }
-
-  Headers.prototype.entries = function() {
-    var items = []
-    this.forEach(function(value, name) { items.push([name, value]) })
-    return iteratorFor(items)
-  }
-
-  if (support.iterable) {
-    Headers.prototype[Symbol.iterator] = Headers.prototype.entries
-  }
-
-  function consumed(body) {
-    if (body.bodyUsed) {
-      return Promise.reject(new TypeError('Already read'))
-    }
-    body.bodyUsed = true
-  }
-
-  function fileReaderReady(reader) {
-    return new Promise(function(resolve, reject) {
-      reader.onload = function() {
-        resolve(reader.result)
-      }
-      reader.onerror = function() {
-        reject(reader.error)
-      }
-    })
-  }
-
-  function readBlobAsArrayBuffer(blob) {
-    var reader = new FileReader()
-    var promise = fileReaderReady(reader)
-    reader.readAsArrayBuffer(blob)
-    return promise
-  }
-
-  function readBlobAsText(blob) {
-    var reader = new FileReader()
-    var promise = fileReaderReady(reader)
-    reader.readAsText(blob)
-    return promise
-  }
-
-  function readArrayBufferAsText(buf) {
-    var view = new Uint8Array(buf)
-    var chars = new Array(view.length)
-
-    for (var i = 0; i < view.length; i++) {
-      chars[i] = String.fromCharCode(view[i])
-    }
-    return chars.join('')
-  }
-
-  function bufferClone(buf) {
-    if (buf.slice) {
-      return buf.slice(0)
-    } else {
-      var view = new Uint8Array(buf.byteLength)
-      view.set(new Uint8Array(buf))
-      return view.buffer
-    }
-  }
-
-  function Body() {
-    this.bodyUsed = false
-
-    this._initBody = function(body) {
-      this._bodyInit = body
-      if (!body) {
-        this._bodyText = ''
-      } else if (typeof body === 'string') {
-        this._bodyText = body
-      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
-        this._bodyBlob = body
-      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
-        this._bodyFormData = body
-      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
-        this._bodyText = body.toString()
-      } else if (support.arrayBuffer && support.blob && isDataView(body)) {
-        this._bodyArrayBuffer = bufferClone(body.buffer)
-        // IE 10-11 can't handle a DataView body.
-        this._bodyInit = new Blob([this._bodyArrayBuffer])
-      } else if (support.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(body) || isArrayBufferView(body))) {
-        this._bodyArrayBuffer = bufferClone(body)
-      } else {
-        throw new Error('unsupported BodyInit type')
-      }
-
-      if (!this.headers.get('content-type')) {
-        if (typeof body === 'string') {
-          this.headers.set('content-type', 'text/plain;charset=UTF-8')
-        } else if (this._bodyBlob && this._bodyBlob.type) {
-          this.headers.set('content-type', this._bodyBlob.type)
-        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
-          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8')
-        }
-      }
-    }
-
-    if (support.blob) {
-      this.blob = function() {
-        var rejected = consumed(this)
-        if (rejected) {
-          return rejected
-        }
-
-        if (this._bodyBlob) {
-          return Promise.resolve(this._bodyBlob)
-        } else if (this._bodyArrayBuffer) {
-          return Promise.resolve(new Blob([this._bodyArrayBuffer]))
-        } else if (this._bodyFormData) {
-          throw new Error('could not read FormData body as blob')
-        } else {
-          return Promise.resolve(new Blob([this._bodyText]))
-        }
-      }
-
-      this.arrayBuffer = function() {
-        if (this._bodyArrayBuffer) {
-          return consumed(this) || Promise.resolve(this._bodyArrayBuffer)
-        } else {
-          return this.blob().then(readBlobAsArrayBuffer)
-        }
-      }
-    }
-
-    this.text = function() {
-      var rejected = consumed(this)
-      if (rejected) {
-        return rejected
-      }
-
-      if (this._bodyBlob) {
-        return readBlobAsText(this._bodyBlob)
-      } else if (this._bodyArrayBuffer) {
-        return Promise.resolve(readArrayBufferAsText(this._bodyArrayBuffer))
-      } else if (this._bodyFormData) {
-        throw new Error('could not read FormData body as text')
-      } else {
-        return Promise.resolve(this._bodyText)
-      }
-    }
-
-    if (support.formData) {
-      this.formData = function() {
-        return this.text().then(decode)
-      }
-    }
-
-    this.json = function() {
-      return this.text().then(JSON.parse)
-    }
-
-    return this
-  }
-
-  // HTTP methods whose capitalization should be normalized
-  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
-
-  function normalizeMethod(method) {
-    var upcased = method.toUpperCase()
-    return (methods.indexOf(upcased) > -1) ? upcased : method
-  }
-
-  function Request(input, options) {
-    options = options || {}
-    var body = options.body
-
-    if (input instanceof Request) {
-      if (input.bodyUsed) {
-        throw new TypeError('Already read')
-      }
-      this.url = input.url
-      this.credentials = input.credentials
-      if (!options.headers) {
-        this.headers = new Headers(input.headers)
-      }
-      this.method = input.method
-      this.mode = input.mode
-      if (!body && input._bodyInit != null) {
-        body = input._bodyInit
-        input.bodyUsed = true
-      }
-    } else {
-      this.url = String(input)
-    }
-
-    this.credentials = options.credentials || this.credentials || 'omit'
-    if (options.headers || !this.headers) {
-      this.headers = new Headers(options.headers)
-    }
-    this.method = normalizeMethod(options.method || this.method || 'GET')
-    this.mode = options.mode || this.mode || null
-    this.referrer = null
-
-    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
-      throw new TypeError('Body not allowed for GET or HEAD requests')
-    }
-    this._initBody(body)
-  }
-
-  Request.prototype.clone = function() {
-    return new Request(this, { body: this._bodyInit })
-  }
-
-  function decode(body) {
-    var form = new FormData()
-    body.trim().split('&').forEach(function(bytes) {
-      if (bytes) {
-        var split = bytes.split('=')
-        var name = split.shift().replace(/\+/g, ' ')
-        var value = split.join('=').replace(/\+/g, ' ')
-        form.append(decodeURIComponent(name), decodeURIComponent(value))
-      }
-    })
-    return form
-  }
-
-  function parseHeaders(rawHeaders) {
-    var headers = new Headers()
-    rawHeaders.split(/\r?\n/).forEach(function(line) {
-      var parts = line.split(':')
-      var key = parts.shift().trim()
-      if (key) {
-        var value = parts.join(':').trim()
-        headers.append(key, value)
-      }
-    })
-    return headers
-  }
-
-  Body.call(Request.prototype)
-
-  function Response(bodyInit, options) {
-    if (!options) {
-      options = {}
-    }
-
-    this.type = 'default'
-    this.status = 'status' in options ? options.status : 200
-    this.ok = this.status >= 200 && this.status < 300
-    this.statusText = 'statusText' in options ? options.statusText : 'OK'
-    this.headers = new Headers(options.headers)
-    this.url = options.url || ''
-    this._initBody(bodyInit)
-  }
-
-  Body.call(Response.prototype)
-
-  Response.prototype.clone = function() {
-    return new Response(this._bodyInit, {
-      status: this.status,
-      statusText: this.statusText,
-      headers: new Headers(this.headers),
-      url: this.url
-    })
-  }
-
-  Response.error = function() {
-    var response = new Response(null, {status: 0, statusText: ''})
-    response.type = 'error'
-    return response
-  }
-
-  var redirectStatuses = [301, 302, 303, 307, 308]
-
-  Response.redirect = function(url, status) {
-    if (redirectStatuses.indexOf(status) === -1) {
-      throw new RangeError('Invalid status code')
-    }
-
-    return new Response(null, {status: status, headers: {location: url}})
-  }
-
-  self.Headers = Headers
-  self.Request = Request
-  self.Response = Response
-
-  self.fetch = function(input, init) {
-    return new Promise(function(resolve, reject) {
-      var request = new Request(input, init)
-      var xhr = new XMLHttpRequest()
-
-      xhr.onload = function() {
-        var options = {
-          status: xhr.status,
-          statusText: xhr.statusText,
-          headers: parseHeaders(xhr.getAllResponseHeaders() || '')
-        }
-        options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers.get('X-Request-URL')
-        var body = 'response' in xhr ? xhr.response : xhr.responseText
-        resolve(new Response(body, options))
-      }
-
-      xhr.onerror = function() {
-        reject(new TypeError('Network request failed'))
-      }
-
-      xhr.ontimeout = function() {
-        reject(new TypeError('Network request failed'))
-      }
-
-      xhr.open(request.method, request.url, true)
-
-      if (request.credentials === 'include') {
-        xhr.withCredentials = true
-      }
-
-      if ('responseType' in xhr && support.blob) {
-        xhr.responseType = 'blob'
-      }
-
-      request.headers.forEach(function(value, name) {
-        xhr.setRequestHeader(name, value)
-      })
-
-      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
-    })
-  }
-  self.fetch.polyfill = true
-})(typeof self !== 'undefined' ? self : this);
-
+exports.default = counter;
 
 /***/ })
 /******/ ]);

@@ -12,7 +12,7 @@ const App = () => (
     <div className='app-container'>
       <Nav />
       <Route exact path='/' component={Home} />
-      <Route exact path='/' component={Game} />
+      <Route exact path='/game' component={Game} />
       <Route path = '/form' component={FormPage}/>
     </div>
   </Router>
