@@ -13,3 +13,14 @@ body {
   margin-top: 25vh;
   font-size: 20em;
 }
+
+a:link{
+  color:purple;
+  text-decoration: none;
+}
+a:visited {
+  text-decoration: none;
+}
+.homeButt {
+  font-size: 5em;
+}

@@ -16289,11 +16289,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var renderButton = function renderButton() {
   return _react2.default.createElement(
-    'div',
-    { className: 'homeButt' },
+    _reactRouterDom.Link,
+    { to: '/game' },
     _react2.default.createElement(
-      _reactRouterDom.Link,
-      { to: '/game' },
+      'div',
+      { className: 'homeButt' },
       'Play GAME'
     )
   );

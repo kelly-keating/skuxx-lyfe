@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom'
 
 const renderButton = () => {
    return (
-     <div className='homeButt'><Link to={`/game`} >Play GAME</Link></div>
+     <Link to={`/game`} >
+       <div className='homeButt'>Play GAME</div>
+    </Link>
    )
  }
 
