@@ -4,8 +4,8 @@ import {Field, reduxForm} from 'redux-form';
 const Form = props => {
   const {handleSubmit, pristine, reset, submitting} = props
   return(
-    <div>
-      <h1>Add A Skuxx</h1>
+    <div class="form-page">
+      <p id="form-title">Add A Skuxx</p>
       <form className="form" onSubmit={handleSubmit}>
         <div>
           <label>Name</label>
