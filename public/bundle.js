@@ -16340,9 +16340,9 @@ var Nav = function Nav() {
     _react2.default.createElement(
       _reactRouterDom.Link,
       { to: '/' },
-      'Home'
+      _react2.default.createElement('img', { src: 'http://i.imgur.com/jMMEjEY.gif' })
     ),
-    ' | ',
+    _react2.default.createElement('br', null),
     _react2.default.createElement(
       _reactRouterDom.Link,
       { to: '/form' },

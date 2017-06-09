@@ -1,0 +1,15 @@
+body {
+  background-color: #b58c6e;
+  font-family: Helvetica Neue,Helvetica,sans-serif;
+  text-align: center;
+}
+
+.nav-container{
+  top:0vh;
+  position:fixed;
+}
+
+#title {
+  margin-top: 25vh;
+  font-size: 20em;
+}
