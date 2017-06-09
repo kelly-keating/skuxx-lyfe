@@ -16132,7 +16132,7 @@ var Form = function Form(props) {
 
   return _react2.default.createElement(
     'div',
-    { 'class': 'form-page' },
+    { className: 'form-page' },
     _react2.default.createElement(
       'p',
       { id: 'form-title' },
