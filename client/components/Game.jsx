@@ -40,7 +40,12 @@ componentWillReceiveProps (props) {
 }
 
 tickSkuxx () {
-  this.setState({pairIndex: this.state.pairIndex + 1})
+  console.log(this.state.skuxxes1.length-1)
+  if (this.state.pairIndex === this.state.skuxxes1.length - 1) {
+    this.props.history.push('/endPage')
+  } else {
+    this.setState({pairIndex: this.state.pairIndex + 1})
+  }
 }
 
 render() {
