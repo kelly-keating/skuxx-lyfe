@@ -26,9 +26,18 @@ a:visited {
 }
 
 #form-title {
-  margin: 0;
+  margin-top: 0;
+  margin-bottom: 10vh;
   font-size: 10em;
 }
 .form{
-  font-size: 5em;
+  font-size: 4em;
+}
+.input-box{
+  font-size: 1.3em;
+}
+.button{
+  margin-top: 10px;
+  margin:10px;
+  font-size: 1em;
 }

@@ -23,12 +23,12 @@ const AddSuccess = props => {
       <h2>The person you added looks like this:</h2>
       <div>
         <p>Name:{newPerson.name}</p>
-        <p>Image:<img src={`${newPerson.img_url}`}></img></p>
+        <p><img src={`${newPerson.img_url}`}></img></p>
         <p>Skuxx level:{newPerson.level}</p>
       </div>
       <h2>Are you happy with what you added?</h2>
-      <button onClick={handleAddFinish}>Oh yeah</button>
-      <button onClick={handleDelete}>Nah Delete It</button>
+      <button className="button" onClick={handleAddFinish}>Oh yeah</button>
+      <button className="button" onClick={handleDelete}>Nah Delete It</button>
     </div>
   )
 }

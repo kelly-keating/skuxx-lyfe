@@ -10,7 +10,7 @@ const Form = props => {
         <div>
           <label>Name</label>
           <div>
-            <Field
+            <Field className="input-box"
               name="name"
               component="input"
               type="text"
@@ -21,7 +21,7 @@ const Form = props => {
         <div>
             <label>Image</label>
             <div>
-              <Field
+              <Field className="input-box"
                 name="img_url"
                 component="input"
                 type="url"
@@ -32,7 +32,7 @@ const Form = props => {
         <div>
           <label>Skuxx Level</label>
           <div>
-              <Field
+              <Field className="input-box"
                 name="level"
                 component="select"
                 >
@@ -44,8 +44,8 @@ const Form = props => {
           </div>
         </div>
         <div>
-            <button type="submit" disabled={pristine || submitting}>Submit</button>
-            <button type="button" disabled={pristine || submitting} onClick={reset}>Clear All</button>
+            <button className="button" type="submit" disabled={pristine || submitting}>Submit</button>
+            <button className="button" type="button" disabled={pristine || submitting} onClick={reset}>Clear All</button>
         </div>
       </form>
     </div>

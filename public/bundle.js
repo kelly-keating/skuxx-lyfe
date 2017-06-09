@@ -16076,7 +16076,6 @@ var AddSuccess = function AddSuccess(props) {
       _react2.default.createElement(
         'p',
         null,
-        'Image:',
         _react2.default.createElement('img', { src: '' + newPerson.img_url })
       ),
       _react2.default.createElement(
@@ -16093,12 +16092,12 @@ var AddSuccess = function AddSuccess(props) {
     ),
     _react2.default.createElement(
       'button',
-      { onClick: handleAddFinish },
+      { className: 'button', onClick: handleAddFinish },
       'Oh yeah'
     ),
     _react2.default.createElement(
       'button',
-      { onClick: handleDelete },
+      { className: 'button', onClick: handleDelete },
       'Nah Delete It'
     )
   );
@@ -16153,7 +16152,7 @@ var Form = function Form(props) {
         _react2.default.createElement(
           'div',
           null,
-          _react2.default.createElement(_reduxForm.Field, {
+          _react2.default.createElement(_reduxForm.Field, { className: 'input-box',
             name: 'name',
             component: 'input',
             type: 'text',
@@ -16172,7 +16171,7 @@ var Form = function Form(props) {
         _react2.default.createElement(
           'div',
           null,
-          _react2.default.createElement(_reduxForm.Field, {
+          _react2.default.createElement(_reduxForm.Field, { className: 'input-box',
             name: 'img_url',
             component: 'input',
             type: 'url',
@@ -16193,7 +16192,7 @@ var Form = function Form(props) {
           null,
           _react2.default.createElement(
             _reduxForm.Field,
-            {
+            { className: 'input-box',
               name: 'level',
               component: 'select'
             },
@@ -16212,12 +16211,12 @@ var Form = function Form(props) {
         null,
         _react2.default.createElement(
           'button',
-          { type: 'submit', disabled: pristine || submitting },
+          { className: 'button', type: 'submit', disabled: pristine || submitting },
           'Submit'
         ),
         _react2.default.createElement(
           'button',
-          { type: 'button', disabled: pristine || submitting, onClick: reset },
+          { className: 'button', type: 'button', disabled: pristine || submitting, onClick: reset },
           'Clear All'
         )
       )
